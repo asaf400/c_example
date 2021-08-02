@@ -38,9 +38,11 @@ string wait_for_input()
     return user_input;
 }
 
+
+// 'parses' user command line input, essentially splits the line into 'command' and 'parameters', by creating vectors, subvectors and loops back to strings
 string parse_command_line(string input_line)
 {
-
+    // if input is empty skip this paring round, and continue main shell while loop
     if (input_line.empty())
         return "";
 
