@@ -34,7 +34,6 @@ string wait_for_input()
 {
     string user_input;
     std::getline(std::cin, user_input);
-    cout << endl;
     return user_input;
 }
 
