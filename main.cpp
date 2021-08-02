@@ -17,18 +17,75 @@
    License along with the "helloworld C-project" project; if not, see
    <http://www.gnu.org/licenses/>.  */
 
+#include <iostream>
+#include <sstream>
+#include <vector>
 
-#include <stdio.h>
-#include <stdlib.h>
+using namespace std;
 
-#include "say_hello.h"
+// Print the shell prompt, run after previous commands finishes
+void print_prompt()
+{
+    cout << "> ";
+}
 
+// Awaits any user input, returns full line
+string wait_for_input()
+{
+    string user_input;
+    std::getline(std::cin, user_input);
+    cout << endl;
+    return user_input;
+}
 
-int main() {
-    char str[100];
-    printf("Your name: ");
-    char* hello = say_hello(fgets(str, 99, stdin));
-    printf("> %s", hello);
-    free(hello);
+string parse_command_line(string input_line)
+{
+
+    if (input_line.empty())
+        return "";
+
+    vector<string> strings;
+    string vector_temp_str;
+    istringstream f(input_line);
+
+    // construct string array \ list \ vector
+    while (getline(f, vector_temp_str, ' '))
+    {
+        // cout << s << endl;
+        strings.push_back(vector_temp_str);
+    }
+
+    // extract command (first undelimited string)
+    string command = strings[0];
+
+    // create sub vector of parameters for command
+    std::vector<string> parameters = {strings.begin() + 1, strings.end()};
+
+    // create a new string out of parameters vectors, mainly for pretty printing
+    string s;
+    for (const auto &piece : parameters)
+    {
+        if (!s.empty())
+        {
+            s += "," + piece;
+        }
+        else
+        {
+            s += piece;
+        }
+
+    }
+        cout << "Requested Command: " << command << ", Requested Parameters: " << s << endl;
+        return "";
+}
+
+int main()
+{
+    while (true)
+    {
+        print_prompt();
+        string user_input = wait_for_input();
+        parse_command_line(user_input);
+    }
     return 0;
 }
